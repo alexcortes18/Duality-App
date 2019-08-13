@@ -4,8 +4,9 @@
 }
 
 mat-grid-tile {
-    background: lightblue;
+     background: lightblue;
     /* padding: 20px; */
+    border: 1 px;
     
   }
 

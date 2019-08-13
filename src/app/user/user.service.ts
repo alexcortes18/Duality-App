@@ -21,6 +21,10 @@ export class UserService {
             });
     }
 
+    public getRestaurantes() {
+        return this.db.collection('availableRestaurantes').snapshotChanges();
+    }
+
     private addDataToDatabase(Restaurantes: Restaurante) {
         this.db.collection('availableRestaurantes').add(Restaurantes);
     }

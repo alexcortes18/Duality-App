@@ -3,6 +3,7 @@ import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Restaurante } from '../restaurante.model';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-lista-restaurantes',
@@ -13,7 +14,8 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
   displayedColumns = ['name'];
   dataSource =  new MatTableDataSource<Restaurante>();
   private restauranteChangedSubscription: Subscription;
-  colorgrid = 'white';
+  isRed = false;
+  Restaurantes: any;
 
   @ViewChild(MatSort, {static:false}) sort: MatSort;
   @ViewChild(MatPaginator, {static:false}) paginator: MatPaginator;
@@ -24,6 +26,8 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
     this.restauranteChangedSubscription = this.userService.restaurantes.subscribe((restaurantes: Restaurante[]) =>
     {
       this.dataSource.data = restaurantes;
+      // this.Restaurantes = restaurantes; //a ver si me agarra
+      // console.log(this.Restaurantes);
     });
     this.userService.fetchavailableRestaurantes();
   }
@@ -31,6 +35,20 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.getMesas();
+  }
+
+  getMesas(){
+    this.userService.getRestaurantes().subscribe((restaurantesSnapshot) => {
+      this.Restaurantes = [];
+      restaurantesSnapshot.forEach((restaurantesData: any) => {
+        this.Restaurantes.push({
+          id: restaurantesData.payload.doc.id,
+          data: restaurantesData.payload.doc.data()
+        });
+        console.log(this.Restaurantes);
+      })
+    });
   }
 
   doFilter(filterValue: string) {
