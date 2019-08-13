@@ -1,0 +1,55 @@
+<div fxLayout="row">
+    <div fxLayout="column" fxFlex="40%" class="lista">
+        <mat-form-field>
+            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+
+        <mat-table [dataSource]="dataSource" matSort style="cursor: pointer">
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    {{ element.name }}
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        
+        <div fxLayoutAlign="left">
+            <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+        </div>
+    </div>
+
+    <div fxFlex="60%">
+        <mat-grid-list cols="5" rowHeight="2:1">   
+            <!-- <mat-grid-tile [ngStyle]="{ 'color': (colorgrid ? 'white' : 'red') }">1</mat-grid-tile> -->
+
+            <mat-table [dataSource]="dataSource" matSort style="cursor: pointer">
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <mat-grid-tile [ngStyle]="{ 'color': 'red'}">{{ element.name }}</mat-grid-tile>
+                    </mat-cell>
+                </ng-container>
+                <!-- <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> -->
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+            <!-- 
+            <mat-grid-tile>3</mat-grid-tile>
+            <mat-grid-tile>4</mat-grid-tile>
+            <mat-grid-tile>5</mat-grid-tile>
+            <mat-grid-tile>6</mat-grid-tile>
+            <mat-grid-tile>7</mat-grid-tile>
+            <mat-grid-tile>8</mat-grid-tile>
+            <mat-grid-tile>9</mat-grid-tile>
+            <mat-grid-tile>10</mat-grid-tile>
+            <mat-grid-tile>11</mat-grid-tile>
+            <mat-grid-tile>12</mat-grid-tile>
+            <mat-grid-tile>13</mat-grid-tile>
+            <mat-grid-tile>14</mat-grid-tile>
+            <mat-grid-tile>15</mat-grid-tile> -->
+        </mat-grid-list>
+    </div>
+
+</div>

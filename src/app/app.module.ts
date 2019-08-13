@@ -7,17 +7,32 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { SignupComponent } from './auth/signup/signup.component';
-import { LonginComponent } from './auth/longin/longin.component';
+import { LoginComponent } from './auth/login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component'
 import { AppRoutingModule } from './app-routing.module';
 import { MatDatepickerModule, MatNativeDateModule, MatCheckbox, MatCheckboxModule } from '@angular/material';
+import { UserComponent } from './user/user.component';
+import { ListaRestaurantesComponent } from './user/lista-restaurantes/lista-restaurantes.component';
+import { CurrentReservationComponent } from './user/current-reservation/current-reservation.component';
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { HeaderComponent } from './navigation/header/header.component';
+import { AuthService } from './auth/auth.service';
+import { UserService } from './user/user.service';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupComponent,
-    LonginComponent,
-    WelcomeComponent
+    LoginComponent,
+    WelcomeComponent,
+    UserComponent,
+    ListaRestaurantesComponent,
+    CurrentReservationComponent,
+    SidenavListComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -28,9 +43,11 @@ import { MatDatepickerModule, MatNativeDateModule, MatCheckbox, MatCheckboxModul
     FormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
-  providers: [],
+  providers: [AuthService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
