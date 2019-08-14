@@ -3,7 +3,9 @@ import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Restaurante } from '../restaurante.model';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
+import { Mesas } from '../mesas.model';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-lista-restaurantes',
@@ -12,19 +14,19 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns = ['name'];
-  dataSource =  new MatTableDataSource<Restaurante>();
+  dataSource = new MatTableDataSource<Restaurante>();
   private restauranteChangedSubscription: Subscription;
   isRed = false;
-  Restaurantes: any;
+  Mesas: any;
+  private db: AngularFirestore;
 
-  @ViewChild(MatSort, {static:false}) sort: MatSort;
-  @ViewChild(MatPaginator, {static:false}) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.restauranteChangedSubscription = this.userService.restaurantes.subscribe((restaurantes: Restaurante[]) =>
-    {
+    this.restauranteChangedSubscription = this.userService.restaurantes.subscribe((restaurantes: Restaurante[]) => {
       this.dataSource.data = restaurantes;
       // this.Restaurantes = restaurantes; //a ver si me agarra
       // console.log(this.Restaurantes);
@@ -35,20 +37,38 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.getMesas();
   }
 
-  getMesas(){
-    this.userService.getRestaurantes().subscribe((restaurantesSnapshot) => {
-      this.Restaurantes = [];
-      restaurantesSnapshot.forEach((restaurantesData: any) => {
-        this.Restaurantes.push({
-          id: restaurantesData.payload.doc.id,
-          data: restaurantesData.payload.doc.data()
-        });
-        console.log(this.Restaurantes);
+  getMesas(elementId: string) {
+    var idDocRestaurante: string;
+    var idGivenbyUser: string;
+
+    idGivenbyUser = this.userService.getRestauranteDocID(elementId);
+    console.log("pls" + idGivenbyUser);
+
+    this.userService.getRestaurantes().subscribe((RestauranteSnapshot) => {
+      RestauranteSnapshot.forEach((RestauranteSnapshotData: any) => {
+        if (elementId == RestauranteSnapshotData.payload.doc.data().id) {
+          idDocRestaurante = RestauranteSnapshotData.payload.doc.id;
+        }
       })
     });
+
+    this.userService.giveAvailableMesas().subscribe((MesasSnapshot) => {
+      this.Mesas = [];
+      MesasSnapshot.forEach((MesasData: any) => {
+        if ( "8OGT3c6lahdNPOXltDmw" == idDocRestaurante ) {
+          this.Mesas.push({
+            id: MesasData.payload.doc.id,
+            data: MesasData.payload.doc.data()
+          });
+        }
+      })
+    });
+  }
+
+  onClickMe(elementId: any) {
+    this.getMesas(elementId);
   }
 
   doFilter(filterValue: string) {

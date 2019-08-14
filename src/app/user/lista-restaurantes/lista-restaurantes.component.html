@@ -5,9 +5,9 @@
         </mat-form-field>
 
         <mat-table [dataSource]="dataSource" matSort style="cursor: pointer">
-            <ng-container matColumnDef="name">
+            <ng-container  matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-                <mat-cell *matCellDef="let element">
+                <mat-cell *matCellDef="let element" (click)="onClickMe(element.id)">
                     {{ element.name }}
                 </mat-cell>
             </ng-container>
@@ -22,12 +22,19 @@
     </div>
 
     <div fxFlex="60%" class="grid">
-        <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-list cols="3" rowHeight="1:1" gutterSize="5px" >
             <!-- <mat-grid-tile [ngStyle]="{ 'color': (isRed ? 'red' : 'white') }">1</mat-grid-tile> -->
-            <div *ngFor="let r of Restaurantes;">
-                <mat-grid-tile >{{ r.data.name }}</mat-grid-tile>
+            <div *ngFor="let m of Mesas;">
+                <mat-grid-tile [ngStyle]="{ 'color': (m.data.free ? 'green' : 'lightblue')}">{{ m.data.sillas }}</mat-grid-tile>
             </div>
-            
         </mat-grid-list>
+
+        <div *ngFor="let r of Mesas;">
+            <ul>
+                <li>
+                    <p>{{r.id}}</p>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
