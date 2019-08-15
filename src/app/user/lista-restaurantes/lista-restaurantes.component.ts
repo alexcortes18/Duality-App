@@ -18,7 +18,7 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
   isRed = false;
   Mesas: any;
   private db: AngularFirestore;
-  
+
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -59,13 +59,14 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
     this.userService.giveAvailableMesas().subscribe((MesasSnapshot) => {
       this.Mesas = [];
       MesasSnapshot.forEach((MesasData: any) => {
-        if ( "8OGT3c6lahdNPOXltDmw" == idDocRestaurante ) {
+        if ("8OGT3c6lahdNPOXltDmw" == idDocRestaurante) {
           this.Mesas.push({
             id: MesasData.payload.doc.id,
             data: MesasData.payload.doc.data()
           });
         }
       })
+
     });
   }
 

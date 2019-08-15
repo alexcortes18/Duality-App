@@ -5,6 +5,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
 import { ListaRestaurantesComponent } from './user/lista-restaurantes/lista-restaurantes.component';
 import { CurrentReservationComponent } from './user/current-reservation/current-reservation.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
     { path:'', component: WelcomeComponent},
@@ -12,6 +13,7 @@ const routes: Routes = [
     { path: 'login', component:LoginComponent},
     { path: 'lista-restaurantes', component:ListaRestaurantesComponent},
     { path: 'current-reservation', component:CurrentReservationComponent},
+    { path: 'user', component:UserComponent},
 ];
 
 @NgModule({

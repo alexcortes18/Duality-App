@@ -12,8 +12,10 @@ export class UserService {
     private availableRestaurantes: Restaurante[] = [];
     // private runningExercise: Exercise;
     // finishedExercisesChanged = new Subject<Exercise[]>();
+    MesasCollectionref : AngularFirestore;
 
-    constructor(private db: AngularFirestore) { }
+    constructor(private db: AngularFirestore) {
+     }
 
     fetchavailableRestaurantes() {
         this.db.collection('availableRestaurantes').
@@ -43,7 +45,7 @@ export class UserService {
     public giveAvailableMesas(){
         return this.db.collection('availableRestaurantes')
         .doc('8OGT3c6lahdNPOXltDmw')
-        .collection('availableMesas').snapshotChanges();
+        .collection('availableMesas', ref => ref.orderBy("id")).snapshotChanges();
     }
 
     private addMesasToRestaurante(Mesas: Mesas) {

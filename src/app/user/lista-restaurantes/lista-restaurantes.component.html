@@ -1,5 +1,5 @@
 <div fxLayout="row">
-    <div fxLayout="column" fxFlex="60%" class="lista">
+    <div fxLayout="column" fxFlex="40%" class="lista">
         <mat-form-field>
             <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
@@ -21,24 +21,32 @@
         </div>
     </div>
 
-    <div fxFlex="60%" class="grid">
-        <mat-grid-list cols="2" rowHeight="2:1" gutterSize="5px">
+    <div fxFlex="55%" class="grid">
+        <mat-grid-list cols="3" gutterSize="10px">
             <div *ngFor="let m of Mesas;">
-                <mat-grid-tile [ngStyle]="{ 'color': (m.data.free ? 'green' : 'red')}">
-                    <img src="./assets/universe.jpg">
-                    <mat-grid-tile-header>
-                        {{m.data.sillas }}
-                    </mat-grid-tile-header>
+                <mat-grid-tile style="cursor: pointer">
+                    <div class="md-card-wrapper">
+                        <mat-card>
+                            <img mat-card-image *ngIf="m.data.free" src="./assets/mesaVacia.svg">
+                            <img mat-card-image *ngIf="!(m.data.free)" src="./assets/mesaOcupada.svg">
+                            <mat-card-footer class="text">
+                                Mesa # {{m.data.id}}, Sillas: {{m.data.sillas}}
+                            </mat-card-footer>
+                        </mat-card>
+                    </div>
                 </mat-grid-tile>
             </div>
         </mat-grid-list>
 
-        <div *ngFor="let r of Mesas;">
+
+
+
+        <!-- <div *ngFor="let r of Mesas;">
             <ul>
                 <li>
                     <p>{{r.id}}</p>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </div>

@@ -18,7 +18,7 @@ import {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatGridListModule
+    MatGridListModule,
     
 } from '@angular/material';
 

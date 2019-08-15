@@ -1,5 +1,5 @@
 export interface Mesas {
-    free: boolean;
-    id: number;
-    sillas: number;
+    id?: number;
+    free?: boolean;
+    sillas?: number;
 }
