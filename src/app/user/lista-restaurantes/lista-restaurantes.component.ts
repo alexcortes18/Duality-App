@@ -37,7 +37,7 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
     this.dataSource.paginator = this.paginator;
   }
 
-  onClickMe(selectedId: any) {
+  giveRestauranteID(selectedId: any) {
     this.getMesas(selectedId);
   }
 
@@ -50,24 +50,26 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
 
     this.userService.getRestaurantes().subscribe((RestauranteSnapshot) => {
       RestauranteSnapshot.forEach((RestauranteSnapshotData: any) => {
+        this.Mesas = [];
         if (selectedId == RestauranteSnapshotData.payload.doc.data().id) {
-          idDocRestaurante = RestauranteSnapshotData.payload.doc.id;
-        }
-      })
-    });
-
-    this.userService.giveAvailableMesas().subscribe((MesasSnapshot) => {
-      this.Mesas = [];
-      MesasSnapshot.forEach((MesasData: any) => {
-        if ("8OGT3c6lahdNPOXltDmw" == idDocRestaurante) {
-          this.Mesas.push({
-            id: MesasData.payload.doc.id,
-            data: MesasData.payload.doc.data()
+          // idDocRestaurante = RestauranteSnapshotData.payload.doc.id;
+          //MESAS
+          this.userService.giveAvailableMesas(selectedId).subscribe((MesasSnapshot) => {
+            // this.Mesas = [];
+            MesasSnapshot.forEach((MesasData: any) => {
+              // if ("8OGT3c6lahdNPOXltDmw" == idDocRestaurante) {
+                this.Mesas.push({
+                  id: MesasData.payload.doc.id,
+                  data: MesasData.payload.doc.data()
+                });
+              // }
+            })
           });
         }
       })
-
     });
+
+
   }
 
   doFilter(filterValue: string) {
