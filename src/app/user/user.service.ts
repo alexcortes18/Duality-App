@@ -27,13 +27,13 @@ export class UserService {
         return this.db.collection('availableRestaurantes').snapshotChanges();
     }
 
-    public getRestauranteDocID(selectedId: string) {
+    getRestauranteDocID (selectedId: string) : string {
         var restauranteDocID: string;
         this.db.collection('availableRestaurantes').snapshotChanges().subscribe((RestauranteSnapshot) => {
             RestauranteSnapshot.forEach((RestauranteSnapshotData: any) => {
               if (selectedId == RestauranteSnapshotData.payload.doc.data().id) {
-                  console.log("HOLA" + RestauranteSnapshotData.payload.doc.id);
                   restauranteDocID = RestauranteSnapshotData.payload.doc.id;
+                //   debugger;
               }
             })
           });

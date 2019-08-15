@@ -5,7 +5,6 @@ import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
 import { Mesas } from '../mesas.model';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-lista-restaurantes',
@@ -19,6 +18,7 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
   isRed = false;
   Mesas: any;
   private db: AngularFirestore;
+  
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -28,8 +28,6 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
   ngOnInit() {
     this.restauranteChangedSubscription = this.userService.restaurantes.subscribe((restaurantes: Restaurante[]) => {
       this.dataSource.data = restaurantes;
-      // this.Restaurantes = restaurantes; //a ver si me agarra
-      // console.log(this.Restaurantes);
     });
     this.userService.fetchavailableRestaurantes();
   }
@@ -39,16 +37,20 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
     this.dataSource.paginator = this.paginator;
   }
 
-  getMesas(elementId: string) {
+  onClickMe(selectedId: any) {
+    this.getMesas(selectedId);
+  }
+
+  getMesas(selectedId: string) {
     var idDocRestaurante: string;
     var idGivenbyUser: string;
 
-    idGivenbyUser = this.userService.getRestauranteDocID(elementId);
-    console.log("pls" + idGivenbyUser);
+    idGivenbyUser = this.userService.getRestauranteDocID(selectedId);
+    // debugger;
 
     this.userService.getRestaurantes().subscribe((RestauranteSnapshot) => {
       RestauranteSnapshot.forEach((RestauranteSnapshotData: any) => {
-        if (elementId == RestauranteSnapshotData.payload.doc.data().id) {
+        if (selectedId == RestauranteSnapshotData.payload.doc.data().id) {
           idDocRestaurante = RestauranteSnapshotData.payload.doc.id;
         }
       })
@@ -65,10 +67,6 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
         }
       })
     });
-  }
-
-  onClickMe(elementId: any) {
-    this.getMesas(elementId);
   }
 
   doFilter(filterValue: string) {
