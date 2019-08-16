@@ -15,10 +15,8 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
   displayedColumns = ['name'];
   dataSource = new MatTableDataSource<Restaurante>();
   private restauranteChangedSubscription: Subscription;
-  isRed = false;
   Mesas: any;
   private db: AngularFirestore;
-
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -44,6 +42,8 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
     // idGivenbyUser = this.userService.getRestauranteDocID(selectedId);
     // debugger;
 
+    //Esta funciona sirve para buscar el DOC.id(de base de datos) con el ID (property) al hacer click, 
+    //pero no se usa ya que aun no puedo enviar el DOC.id (del UI) para comparar
     this.userService.getRestaurantes().subscribe((RestauranteSnapshot) => {
       RestauranteSnapshot.forEach((RestauranteSnapshotData: any) => {
         if (selectedId == RestauranteSnapshotData.payload.doc.data().id) {
@@ -55,6 +55,7 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
     this.Mesas = [];
     this.userService.giveAvailableMesas(selectedId).subscribe((MesasSnapshot) => {
       MesasSnapshot.forEach((MesasData: any) => {
+        //aqui se usaria el codigo de arriba...if(idDocRestaurante == idGivenbyUser) {do abajo}
         this.Mesas.push({
           id: MesasData.payload.doc.id,
           data: MesasData.payload.doc.data()
