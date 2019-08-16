@@ -7,7 +7,7 @@
         <mat-table [dataSource]="dataSource" matSort style="cursor: pointer">
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-                <mat-cell *matCellDef="let element" (click)="giveRestauranteID(element.id)">
+                <mat-cell *matCellDef="let element" (click)="onClickGiveRestauranteID(element.id)">
                     {{ element.name }}
                 </mat-cell>
             </ng-container>

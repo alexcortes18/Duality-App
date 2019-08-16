@@ -4,7 +4,6 @@ import { Mesas } from './mesas.model';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import 'rxjs/Rx';
-import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 
 @Injectable()
 export class UserService {
@@ -42,6 +41,11 @@ export class UserService {
         return restauranteDocID;
     }
 
+    getRestaurante(selectedId) {
+        return this.db.collection('availableRestaurantes', ref => ref.where("id", "==", selectedId))
+            .snapshotChanges();
+    }
+
     // public giveAvailableMesas(selectedId){
     //     var restaurantesID: string;
     //     restaurantesID = this.getRestauranteDocID(selectedId);
@@ -52,23 +56,29 @@ export class UserService {
     // }
 
     public giveAvailableMesas(selectedId) {
-        var restaurantesID: string;
-        switch (selectedId) {
-            case 1:
-                restaurantesID = '8OGT3c6lahdNPOXltDmw';
-            case 2:
-                restaurantesID = 'CtbrQzrbH5Rlrn9ukugv';
-            default:
-                '';
-        }
+        var idGivenbyUser: any;
+        this.getRestaurante(selectedId).subscribe((RestauranteSnapshot) => {
+            RestauranteSnapshot.forEach((RestauranteSnapshotData: any) => {
+                idGivenbyUser = RestauranteSnapshotData.payload.doc.id;
+                console.log(idGivenbyUser);
+                // })
+            });
+        });
+        idGivenbyUser;
+        // debugger;
+        if (selectedId == 1) { idGivenbyUser = '8OGT3c6lahdNPOXltDmw'; }
+        else if (selectedId == 2) { idGivenbyUser = 'VzLv85jNhs4VqUdRiWtL'; }
+        else if (selectedId == 3) { idGivenbyUser = 'isirvTtN5SYAnliY4VUA'; }
+        else if (selectedId == 4) { idGivenbyUser = 'ScrPZ98WTDv8OLOe7Bnf'; }
+        else if (selectedId == 5) { idGivenbyUser = 'CtbrQzrbH5Rlrn9ukugv'; }
+        else if (selectedId == 6) { idGivenbyUser = 'nUGEYY3FCs8Hc9oFn0HG'; }
 
         return this.db.collection('availableRestaurantes')
-            .doc(restaurantesID)
+            .doc(idGivenbyUser)
             .collection('availableMesas', ref => ref.orderBy("id")).snapshotChanges();
     }
 
     private addMesasToRestaurante(Mesas: Mesas) {
         this.db.collection("availableMesas").add(Mesas);
     }
-
 }

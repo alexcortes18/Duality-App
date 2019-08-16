@@ -37,39 +37,30 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
     this.dataSource.paginator = this.paginator;
   }
 
-  giveRestauranteID(selectedId: any) {
-    this.getMesas(selectedId);
-  }
-
-  getMesas(selectedId: string) {
+  onClickGiveRestauranteID(selectedId) {
     var idDocRestaurante: string;
     var idGivenbyUser: string;
 
-    idGivenbyUser = this.userService.getRestauranteDocID(selectedId);
+    // idGivenbyUser = this.userService.getRestauranteDocID(selectedId);
     // debugger;
 
     this.userService.getRestaurantes().subscribe((RestauranteSnapshot) => {
       RestauranteSnapshot.forEach((RestauranteSnapshotData: any) => {
-        this.Mesas = [];
         if (selectedId == RestauranteSnapshotData.payload.doc.data().id) {
-          // idDocRestaurante = RestauranteSnapshotData.payload.doc.id;
-          //MESAS
-          this.userService.giveAvailableMesas(selectedId).subscribe((MesasSnapshot) => {
-            // this.Mesas = [];
-            MesasSnapshot.forEach((MesasData: any) => {
-              // if ("8OGT3c6lahdNPOXltDmw" == idDocRestaurante) {
-                this.Mesas.push({
-                  id: MesasData.payload.doc.id,
-                  data: MesasData.payload.doc.data()
-                });
-              // }
-            })
-          });
+          idDocRestaurante = RestauranteSnapshotData.payload.doc.id;
         }
       })
+    });    
+
+    this.Mesas = [];
+    this.userService.giveAvailableMesas(selectedId).subscribe((MesasSnapshot) => {
+      MesasSnapshot.forEach((MesasData: any) => {
+        this.Mesas.push({
+          id: MesasData.payload.doc.id,
+          data: MesasData.payload.doc.data()
+        });
+      })
     });
-
-
   }
 
   doFilter(filterValue: string) {
