@@ -42,6 +42,7 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
     
     this.userService.getRestaurantes().subscribe((RestauranteSnapshot) => {
       RestauranteSnapshot.forEach((RestauranteSnapshotData: any) => {
+
           if (selectedId == RestauranteSnapshotData.payload.doc.data().id) {
               this.selectedRestaurante = RestauranteSnapshotData.payload.doc.id;
               // this.availableMesas = this.giveAvailableMesas();
