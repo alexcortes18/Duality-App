@@ -40,3 +40,17 @@ text:hover,
 text:active {
   color: lightgrey;
 }
+
+.isAvailable{
+  width: 100%;
+  height:100%;
+  border-radius: 4px;
+  background-color: green;
+}
+
+.isNotAvailable{
+  width: 100%;
+  height:100%;
+  border-radius: 4px;
+  background-color: red;
+}

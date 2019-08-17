@@ -16,6 +16,7 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
   dataSource = new MatTableDataSource<Restaurante>();
   private restauranteChangedSubscription: Subscription;
   Mesas: any;
+  selectedRestaurante: any;
   private db: AngularFirestore;
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -38,28 +39,28 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
   onClickGiveRestauranteID(selectedId) {
     var idDocRestaurante: string;
     var idGivenbyUser: string;
-
-    // idGivenbyUser = this.userService.getRestauranteDocID(selectedId);
-    // debugger;
-
-    //Esta funciona sirve para buscar el DOC.id(de base de datos) con el ID (property) al hacer click, 
-    //pero no se usa ya que aun no puedo enviar el DOC.id (del UI) para comparar
+    
     this.userService.getRestaurantes().subscribe((RestauranteSnapshot) => {
       RestauranteSnapshot.forEach((RestauranteSnapshotData: any) => {
-        if (selectedId == RestauranteSnapshotData.payload.doc.data().id) {
-          idDocRestaurante = RestauranteSnapshotData.payload.doc.id;
-        }
-      })
-    });    
-
+          if (selectedId == RestauranteSnapshotData.payload.doc.data().id) {
+              this.selectedRestaurante = RestauranteSnapshotData.payload.doc.id;
+              // this.availableMesas = this.giveAvailableMesas();
+              this.getMesas(this.selectedRestaurante);
+              
+          }
+      });
+  });
+    // this.userService.getRestauranteDocID(selectedId);
+  }
+  
+  getMesas(selectedRestaurante){
     this.Mesas = [];
-    this.userService.giveAvailableMesas(selectedId).subscribe((MesasSnapshot) => {
+    this.userService.giveAvailableMesas(selectedRestaurante).subscribe((MesasSnapshot) => {
       MesasSnapshot.forEach((MesasData: any) => {
-        //aqui se usaria el codigo de arriba...if(idDocRestaurante == idGivenbyUser) {do abajo}
         this.Mesas.push({
-          id: MesasData.payload.doc.id,
-          data: MesasData.payload.doc.data()
-        });
+            id: MesasData.payload.doc.id,
+            data: MesasData.payload.doc.data()
+          });
       })
     });
   }

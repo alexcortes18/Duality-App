@@ -27,8 +27,15 @@
                 <mat-grid-tile style="cursor: pointer">
                     <div class="md-card-wrapper">
                         <mat-card>
-                            <img mat-card-image *ngIf="m.data.free" src="./assets/mesaVacia.svg">
-                            <img mat-card-image *ngIf="!(m.data.free)" src="./assets/mesaOcupada.svg">
+                            <div style="position: relative">
+                                <img mat-card-image *ngIf="m.data.free" src="./assets/mesaVacia.svg">
+                                <img mat-card-image *ngIf="!(m.data.free)" src="./assets/mesaOcupada.svg">
+                                <span style="top: 20%;left: 44%;font-size: 3rem;position: absolute;font-weight: 900;color: white;">{{m.data.sillas}}</span>
+                            </div>
+                            
+                            <!-- <div [ngClass]="{'isAvailable': m.data.free, 'isNotAvailable': !(m.data.free)}">
+                                {{m.data.id}}
+                            </div> -->
                             <mat-card-footer class="text">
                                 Mesa # {{m.data.id}}, Sillas: {{m.data.sillas}}
                             </mat-card-footer>
