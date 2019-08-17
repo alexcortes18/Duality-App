@@ -52,8 +52,9 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
       })
     });    
 
-    this.Mesas = [];
+    
     this.userService.giveAvailableMesas(selectedId).subscribe((MesasSnapshot) => {
+      this.Mesas = [];
       MesasSnapshot.forEach((MesasData: any) => {
         //aqui se usaria el codigo de arriba...if(idDocRestaurante == idGivenbyUser) {do abajo}
         this.Mesas.push({
