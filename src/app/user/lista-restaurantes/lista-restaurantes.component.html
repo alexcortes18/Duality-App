@@ -29,11 +29,11 @@
             <!-- </div> -->
             <mat-grid-list cols="2" rowHeight="150px" gutterSize="5px">
                 <div *ngFor="let m of Mesas;">
-                    <mat-grid-tile style="cursor: pointer">
+                    <mat-grid-tile style="cursor: pointer" (click)="onClickMesa(m.data.id,m.data.free)">
                         <div fxLayout="row" class="cells">
                             <div style="position: relative">
                                 <img *ngIf="m.data.free" src="./assets/MesaDisponible.svg">
-                                <img *ngIf="!(m.data.free)" src="./assets/MesaOcupada.svg">
+                                <img *ngIf="!(m.data.free)" src="./assets/mesaOcupada.svg">
                                 <span
                                     style="top: 25%;left: 27%;font-size: 1rem;position: absolute;font-weight: 900;color: white;">
                                     Mesa # {{m.data.id}}

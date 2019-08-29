@@ -40,7 +40,8 @@ export class UserService {
             .collection('availableMesas', ref => ref.orderBy("id")).snapshotChanges();
     }
 
-    private addMesasToRestaurante(Mesas: Mesas) {
-        this.db.collection("availableMesas").add(Mesas);
+    public updateMesaStatus(selectedRestaurante: string, selectedMesa:string,status:boolean) {
+        this.db.doc("availableRestaurantes/"+selectedRestaurante+"/availableMesas/"+selectedMesa).
+        update({free: status});
     }
 }

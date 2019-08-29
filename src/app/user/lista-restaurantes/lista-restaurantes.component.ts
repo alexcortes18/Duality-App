@@ -63,7 +63,19 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
         this.Mesas.push({
             id: MesasData.payload.doc.id,
             data: MesasData.payload.doc.data()
-          });
+          })
+      })
+    });
+  }
+
+  onClickMesa(id:number,free:boolean){
+    console.log(id);
+
+    this.userService.giveAvailableMesas(this.selectedRestaurante).subscribe((MesasSnapshot) => {
+      MesasSnapshot.forEach((MesasData: any) => {
+        if(id==MesasData.payload.doc.data().id){
+          this.userService.updateMesaStatus(this.selectedRestaurante,MesasData.payload.doc.id,!free);
+        }
       })
     });
   }
