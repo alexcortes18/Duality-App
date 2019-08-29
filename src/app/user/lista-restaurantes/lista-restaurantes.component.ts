@@ -16,8 +16,10 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
   dataSource = new MatTableDataSource<Restaurante>();
   private restauranteChangedSubscription: Subscription;
   Mesas: any;
+  RestauranteName: string;
   selectedRestaurante: any;
   private db: AngularFirestore;
+  click = false;
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -36,22 +38,22 @@ export class ListaRestaurantesComponent implements OnInit, AfterViewInit, OnDest
     this.dataSource.paginator = this.paginator;
   }
 
-  onClickGiveRestauranteID(selectedId) {
+  onClickGiveRestauranteID(selectedId,restaurante) {
+    this.click=true;
     var idDocRestaurante: string;
     var idGivenbyUser: string;
+
+    this.RestauranteName = restaurante;
     
     this.userService.getRestaurantes().subscribe((RestauranteSnapshot) => {
       RestauranteSnapshot.forEach((RestauranteSnapshotData: any) => {
-
           if (selectedId == RestauranteSnapshotData.payload.doc.data().id) {
               this.selectedRestaurante = RestauranteSnapshotData.payload.doc.id;
-              // this.availableMesas = this.giveAvailableMesas();
               this.getMesas(this.selectedRestaurante);
               
           }
       });
   });
-    // this.userService.getRestauranteDocID(selectedId);
   }
   
   getMesas(selectedRestaurante){

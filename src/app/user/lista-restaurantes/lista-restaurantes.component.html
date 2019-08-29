@@ -7,7 +7,7 @@
         <mat-table [dataSource]="dataSource" matSort style="cursor: pointer">
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-                <mat-cell *matCellDef="let element" (click)="onClickGiveRestauranteID(element.id)">
+                <mat-cell *matCellDef="let element" (click)="onClickGiveRestauranteID(element.id,element.name)">
                     {{ element.name }}
                 </mat-cell>
             </ng-container>
@@ -22,28 +22,36 @@
     </div>
 
     <div fxFlex="55%" class="grid">
-        <mat-grid-list cols="3" gutterSize="10px">
-            <div *ngFor="let m of Mesas;">
-                <mat-grid-tile style="cursor: pointer">
-                    <div class="md-card-wrapper">
-                        <mat-card>
+        <!-- <div> -->
+            <!-- <div fxFlex="30%" fxFlexAlign="center"> -->
+                <div class="titulo">{{RestauranteName}}</div>
+                <div *ngIf="click" class="instrucciones"> Seleccione la mesa con el numero de sillas que desee.</div>
+            <!-- </div> -->
+            <mat-grid-list cols="2" rowHeight="150px" gutterSize="5px">
+                <div *ngFor="let m of Mesas;">
+                    <mat-grid-tile style="cursor: pointer">
+                        <div fxLayout="row" class="cells">
                             <div style="position: relative">
-                                <img mat-card-image *ngIf="m.data.free" src="./assets/mesaVacia.svg">
-                                <img mat-card-image *ngIf="!(m.data.free)" src="./assets/mesaOcupada.svg">
-                                <span style="top: 20%;left: 44%;font-size: 3rem;position: absolute;font-weight: 900;color: white;">{{m.data.sillas}}</span>
+                                <img *ngIf="m.data.free" src="./assets/MesaDisponible.svg">
+                                <img *ngIf="!(m.data.free)" src="./assets/MesaOcupada.svg">
+                                <span
+                                    style="top: 25%;left: 27%;font-size: 1rem;position: absolute;font-weight: 900;color: white;">
+                                    Mesa # {{m.data.id}}
+                                </span>
                             </div>
-                            
-                            <!-- <div [ngClass]="{'isAvailable': m.data.free, 'isNotAvailable': !(m.data.free)}">
-                                {{m.data.id}}
-                            </div> -->
-                            <mat-card-footer class="text">
-                                Mesa # {{m.data.id}}, Sillas: {{m.data.sillas}}
-                            </mat-card-footer>
-                        </mat-card>
-                    </div>
-                </mat-grid-tile>
-            </div>
-        </mat-grid-list>
+                            <div style="position: relative; ">
+                                <img *ngIf="m.data.free" src="./assets/SillaDisponible.svg">
+                                <img *ngIf="!(m.data.free)" src="./assets/SillaOcupada.svg">
+                                <span
+                                    style="top: 10%;left: 43%;font-size: 1rem;position: absolute;font-weight: 900;color: white;">
+                                    {{m.data.sillas}}
+                                </span>
+                            </div>
+                        </div>
+                    </mat-grid-tile>
+                </div>
+            </mat-grid-list>
+        <!-- </div> -->
 
         <!-- <div *ngFor="let r of Mesas;">
             <ul>
